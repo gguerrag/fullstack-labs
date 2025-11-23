@@ -2,13 +2,12 @@ package com.example.users.controladores;
 
 import com.example.users.entidades.User;
 import com.example.users.servicios.UserService;
-import com.example.users.dtos.LoginRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/users/auth")
+@CrossOrigin("*")
 public class AuthController {
 
     private final UserService userService;
@@ -17,25 +16,15 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User u) {
-        User created = userService.registerBasicUser(u);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
-
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        boolean ok = userService.validarCredenciales(
-                request.getUsername(),
-                request.getPassword()
-        );
+    public ResponseEntity<?> login(@RequestParam String email,
+                                   @RequestParam String password) {
 
-        if (!ok) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Credenciales inválidas");
+        try {
+            User user = userService.validarCredenciales(email, password);
+            return ResponseEntity.ok("Login OK para: " + user.getEmail());
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Credenciales inválidas");
         }
-
-        // Aquí podrías devolver un token, o por ahora un mensaje simple / el usuario
-        return ResponseEntity.ok("Login correcto");
     }
 }

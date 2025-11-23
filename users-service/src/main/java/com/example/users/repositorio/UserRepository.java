@@ -2,21 +2,18 @@ package com.example.users.repositorio;
 
 import com.example.users.entidades.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import com.example.users.entidades.User;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
-    Optional<User> findByEmail(String email);
-    Optional<User> findByRut(String rut);
-    
 
-    @Query("select u from User u join u.roles r where r.name = :name")
-    List<User> findByRoleName(@Param("name") String name);
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByRut(String rut);
+
+    boolean existsByEmail(String email);   // requerido por UserService
+
+    boolean existsByRut(String rut);       // requerido por UserService
 }

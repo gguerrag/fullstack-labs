@@ -1,27 +1,17 @@
 package com.example.users.servicios;
 
+import com.example.users.dtos.CreateUserRequest;
 import com.example.users.entidades.Role;
 import com.example.users.entidades.User;
 import com.example.users.repositorio.RoleRepository;
 import com.example.users.repositorio.UserRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-@Transactional
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -35,79 +25,89 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Usado por Spring Security para autenticar.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuario no encontrado: " + username));
-
-        Collection<? extends GrantedAuthority> authorities = user.getRoles()
-                .stream()
-                // ROLE_ prefijo estándar de Spring
-                .map(Role::getName)
-                .map(name -> new SimpleGrantedAuthority("ROLE_" + name))
-                .collect(Collectors.toList());
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                authorities
-        );
-    }
-
-    /**
-     * Registrar un usuario con rol BASIC.
-     * Usado por tu AuthController en /api/auth/register.
-     */
-    public User registerBasicUser(User user) {
-
-        // Reglas de unicidad básicas
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("El username ya está en uso");
-        }
-
-        if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("El email ya está en uso");
-        }
-
-        if (user.getRut() != null && userRepository.existsByRut(user.getRut())) {
-            throw new IllegalArgumentException("El RUT ya está en uso");
-        }
-
-        // Buscar rol BASIC en la tabla ROLES
-        Role basicRole = roleRepository.findByName("BASIC")
-                .orElseThrow(() -> new IllegalStateException("Rol BASIC no existe"));
-
-        // Encriptar password
-        String encoded = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encoded);
-
-        // Fecha de creación (si tu entidad la tiene)
-        if (user.getCreatedAt() == null) {
-            user.setCreatedAt(LocalDateTime.now());
-        }
-
-        // Asignar rol BASIC
-        user.getRoles().clear();
-        user.getRoles().add(basicRole);
-
-        return userRepository.save(user);
-    }
-
-    // --- Métodos de apoyo opcionales, por si los usas en otros controladores ---
-
-    @Transactional(readOnly = true)
+    // -----------------------------------------------------
+    // LISTAR USUARIOS
+    // -----------------------------------------------------
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    // -----------------------------------------------------
+    // BUSCAR POR ID
+    // -----------------------------------------------------
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+    // -----------------------------------------------------
+    // CREAR USUARIO (CON ROLE)
+    // -----------------------------------------------------
+    public User create(CreateUserRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email ya registrado");
+        }
+
+        if (userRepository.existsByRut(request.getRut())) {
+            throw new RuntimeException("RUT ya registrado");
+        }
+
+        // Buscar rol (case insensitive)
+        Role role = roleRepository.findByNameIgnoreCase(request.getRole())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + request.getRole()));
+
+        User user = new User();
+        user.setNombre(request.getNombre());
+        user.setEmail(request.getEmail());
+        user.setRut(request.getRut());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(role);
+
+        return userRepository.save(user);
+    }
+
+    // -----------------------------------------------------
+    // ACTUALIZAR
+    // -----------------------------------------------------
+    public User update(Long id, CreateUserRequest request) {
+        User user = findById(id);
+
+        user.setNombre(request.getNombre());
+        user.setEmail(request.getEmail());
+        user.setRut(request.getRut());
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        if (request.getRole() != null) {
+            Role role = roleRepository.findByNameIgnoreCase(request.getRole())
+                    .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+            user.setRole(role);
+        }
+
+        return userRepository.save(user);
+    }
+
+    // -----------------------------------------------------
+    // ELIMINAR
+    // -----------------------------------------------------
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    // -----------------------------------------------------
+    // LOGIN
+    // -----------------------------------------------------
+    public User validarCredenciales(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Credenciales inválidas");
+        }
+
+        return user;
     }
 }
