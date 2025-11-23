@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@x4jr6t1j9re665hr_high?TNS_ADMIN=/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/resources/Wallet_X4JR6T1J9RE665HR
+    username: LAB_USERS
+    password: P4rM3d-Users#2025!
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.OracleDialect
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env

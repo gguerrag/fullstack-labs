@@ -1,0 +1,5 @@
+com/example/users/entidades/Role.class
+com/example/users/config/DataSeeder.class
+com/example/users/config/GlobalExceptionHandler.class
+com/example/users/repositorio/RoleRepository.class
+com/example/users/UsersServiceApplication.class
