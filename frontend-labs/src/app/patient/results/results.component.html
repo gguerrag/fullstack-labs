@@ -1,0 +1,37 @@
+<div class="container my-4" *ngIf="user">
+  <h2 class="mb-3">Resultados de análisis</h2>
+
+  <div class="table-responsive" *ngIf="results.length; else noData">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo de examen</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of results">
+          <td>{{ r.id }}</td>
+          <td>{{ r.tipo }}</td>
+          <td>{{ r.fecha }}</td>
+          <td>
+            <span class="badge"
+                  [ngClass]="r.estado === 'Completado' ? 'bg-success' : 'bg-warning text-dark'">
+              {{ r.estado }}
+            </span>
+          </td>
+          <td>{{ r.resultado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noData>
+    <div class="alert alert-info">
+      Aún no se registran resultados para tu usuario.
+    </div>
+  </ng-template>
+</div>

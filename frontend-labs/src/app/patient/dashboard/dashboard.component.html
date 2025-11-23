@@ -1,0 +1,14 @@
+<div class="container my-4" *ngIf="user">
+  <h2 class="mb-3">Bienvenido, {{ user.nombre }}</h2>
+  <p class="mb-4">
+    Aquí puedes revisar el estado de tus exámenes realizados
+    en los distintos laboratorios.
+  </p>
+
+  <h4>Resumen rápido</h4>
+  <ul>
+    <li>Total de resultados: {{ totalResultados }}</li>
+    <li>Completados: {{ totalCompletados }}</li>
+    <li>Pendientes: {{ totalPendientes }}</li>
+  </ul>
+</div>

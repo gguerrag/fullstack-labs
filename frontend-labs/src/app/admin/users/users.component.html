@@ -1,0 +1,29 @@
+<div class="container my-4">
+  <h2 class="mb-3">Usuarios del sistema</h2>
+
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }} {{ u.apellido }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <span class="badge" 
+                  [ngClass]="u.rol === 'ADMIN' ? 'bg-primary' : 'bg-secondary'">
+              {{ u.rol }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

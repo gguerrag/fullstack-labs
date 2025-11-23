@@ -1,0 +1,82 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <h2 class="mb-4 text-center">Registro de usuario</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control" formControlName="nombre">
+          <div class="text-danger" *ngIf="submitted && f['nombre'].errors">
+            El nombre es obligatorio.
+          </div>
+        </div>
+
+        <!-- Apellido -->
+        <div class="mb-3">
+          <label class="form-label">Apellido</label>
+          <input type="text" class="form-control" formControlName="apellido">
+          <div class="text-danger" *ngIf="submitted && f['apellido'].errors">
+            El apellido es obligatorio.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" formControlName="email">
+          <div class="text-danger" *ngIf="submitted && f['email'].errors">
+            <span *ngIf="f['email'].errors?.['required']">
+              El email es obligatorio.
+            </span>
+            <span *ngIf="f['email'].errors?.['email']">
+              Formato de email inválido.
+            </span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" formControlName="password">
+          <div class="form-text">
+            Debe tener entre 8 y 20 caracteres, incluir al menos una mayúscula,
+            un número y un caracter especial.
+          </div>
+          <div class="text-danger" *ngIf="submitted && f['password'].errors">
+            <span *ngIf="f['password'].errors?.['required']">
+              La contraseña es obligatoria.
+            </span>
+            <span *ngIf="f['password'].errors?.['minlength']">
+              Mínimo 8 caracteres.
+            </span>
+            <span *ngIf="f['password'].errors?.['maxlength']">
+              Máximo 20 caracteres.
+            </span>
+            <span *ngIf="f['password'].errors?.['pattern']">
+              Debe incluir mayúscula, número y caracter especial.
+            </span>
+          </div>
+        </div>
+
+        <!-- Rol -->
+        <div class="mb-3">
+          <label class="form-label">Rol</label>
+          <select class="form-select" formControlName="rol">
+            <option value="PATIENT">Paciente</option>
+            <option value="ADMIN">Administrador</option>
+          </select>
+          <div class="text-danger" *ngIf="submitted && f['rol'].errors">
+            El rol es obligatorio.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Crear cuenta
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
