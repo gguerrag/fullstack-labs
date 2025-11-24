@@ -1,14 +1,12 @@
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/UsersServiceApplication.java
-/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/config/DataSeeder.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/config/GlobalExceptionHandler.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/config/SecurityConfig.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/controladores/AuthController.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/controladores/UserController.java
-/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/dtos/CreateUserRequest.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/dtos/LoginRequest.java
+/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/dtos/LoginResponse.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/dtos/UpdateUserRequest.java
-/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/entidades/Role.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/entidades/User.java
-/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/repositorio/RoleRepository.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/repositorio/UserRepository.java
+/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/servicios/JwtService.java
 /Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/java/com/example/users/servicios/UserService.java

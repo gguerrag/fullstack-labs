@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NOMBRE", length = 120)        // 👈 AHORA ES NULLABLE POR DEFECTO
+    @Column(name = "NOMBRE", length = 120)
     private String nombre;
 
     @Column(nullable = false, length = 120)
@@ -42,7 +42,6 @@ public class User {
     }
 
     // GETTERS & SETTERS
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

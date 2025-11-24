@@ -1,16 +1,14 @@
 package com.example.users.controladores;
 
-import com.example.users.dtos.CreateUserRequest;
 import com.example.users.entidades.User;
 import com.example.users.servicios.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -19,29 +17,40 @@ public class UserController {
         this.userService = userService;
     }
 
+    // GET ALL
     @GetMapping
-    public List<User> listar() {
+    public List<User> findAll() {
         return userService.findAll();
     }
 
+    // GET ONE
     @GetMapping("/{id}")
-    public User obtener(@PathVariable Long id) {
+    public User findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
+    // CREATE
     @PostMapping
-    public User create(@RequestBody CreateUserRequest request) {
-        return userService.create(request);
+    public User create(@RequestBody User user) {
+        return userService.create(user);
     }
 
+    // UPDATE
     @PutMapping("/{id}")
-    public User actualizar(@PathVariable Long id, @RequestBody User user) {
+    public User update(@PathVariable Long id, @RequestBody User user) {
         return userService.update(id, user);
     }
 
+    // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         userService.delete(id);
-        return ResponseEntity.ok("Usuario eliminado");
+    }
+
+    // LOGIN
+    @PostMapping("/auth/login")
+    public User login(@RequestParam String email,
+                      @RequestParam String password) {
+        return userService.validarCredenciales(email, password);
     }
 }
