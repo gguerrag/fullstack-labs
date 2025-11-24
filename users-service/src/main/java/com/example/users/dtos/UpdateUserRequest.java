@@ -1,4 +1,4 @@
-package com.example.dtos;
+package com.example.users.dtos;
 
 import jakarta.validation.constraints.*;
 import java.util.Set;

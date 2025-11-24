@@ -11,7 +11,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NOMBRE", length = 120)
+    // OJO: cambiar NOMBRE → FIRST_NAME
+    @Column(name = "FIRST_NAME", nullable = false, length = 120)
     private String nombre;
 
     @Column(nullable = false, length = 120)
@@ -40,7 +41,6 @@ public class User {
             this.username = this.email;
         }
     }
-
     // GETTERS & SETTERS
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

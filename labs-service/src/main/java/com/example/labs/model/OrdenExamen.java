@@ -30,11 +30,10 @@ public class OrdenExamen {
     @Column(name = "TOTAL", precision = 12, scale = 2)
     private BigDecimal total;
 
+    // CORREGIDO: mappedBy = "ordenExamen"
     @OneToMany(mappedBy = "ordenExamen", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleOrden> detalles = new ArrayList<>();
 
-
-    // Getters/Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

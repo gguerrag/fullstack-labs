@@ -2,55 +2,49 @@ package com.example.users.controladores;
 
 import com.example.users.entidades.User;
 import com.example.users.servicios.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    // GET ALL
+    // Obtener todos los usuarios
     @GetMapping
-    public List<User> findAll() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    // GET ONE
-    @GetMapping("/{id}")
-    public User findById(@PathVariable Long id) {
-        return userService.findById(id);
-    }
-
-    // CREATE
+    // Crear usuario
     @PostMapping
-    public User create(@RequestBody User user) {
-        return userService.create(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
-    // UPDATE
+@GetMapping("/{id}")
+public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    return userService.getUserById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+}
+
+
+    // Actualizar usuario
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return userService.update(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
-    // DELETE
+    // Eliminar usuario
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        userService.delete(id);
-    }
-
-    // LOGIN
-    @PostMapping("/auth/login")
-    public User login(@RequestParam String email,
-                      @RequestParam String password) {
-        return userService.validarCredenciales(email, password);
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

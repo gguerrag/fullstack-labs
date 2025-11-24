@@ -1,79 +1,21 @@
 package com.example.users.servicios;
 
 import com.example.users.entidades.User;
-import com.example.users.repositorio.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    List<User> getAllUsers();
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    User saveUser(User user);
 
-    // GET ALL
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    Optional<User> getUserById(Long id);
 
-    // GET ONE
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-    }
+    User updateUser(Long id, User user);
 
-    // CREATE
-    public User create(User user) {
+    void deleteUser(Long id);
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email ya registrado");
-        }
-
-        if (userRepository.existsByRut(user.getRut())) {
-            throw new RuntimeException("RUT ya registrado");
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    // UPDATE
-    public User update(Long id, User request) {
-        User user = findById(id);
-
-        user.setNombre(request.getNombre());
-        user.setEmail(request.getEmail());
-        user.setRut(request.getRut());
-
-        if (request.getPassword() != null && !request.getPassword().isBlank()) {
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
-
-        return userRepository.save(user);
-    }
-
-    // DELETE
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    // LOGIN
-    public User validarCredenciales(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Credenciales inválidas");
-        }
-
-        return user;
-    }
+    User login(String emailOrUsername, String password);
 }

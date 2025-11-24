@@ -1,10 +1,12 @@
 server:
   port: 8082
-spring.application.name: labs-service
 
 spring:
+  application:
+    name: labs-service
+
   datasource:
-    url: jdbc:oracle:thin:@x4jr6t1j9re665hr_high?TNS_ADMIN=/Users/gonzaloguerragaldames/labs-service/src/main/resources/Wallet_X4JR6T1J9RE665HR
+    url: jdbc:oracle:thin:@x4jr6t1j9re665hr_high?TNS_ADMIN=/Users/gonzaloguerragaldames/fullstack-labs/labs-service/src/main/resources/Wallet_X4JR6T1J9RE665HR
     username: LAB_APP
     password: P4rM3d-Labs#2025!
     driver-class-name: oracle.jdbc.OracleDriver
@@ -12,13 +14,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
     properties:
       hibernate.dialect: org.hibernate.dialect.OracleDialect
+    show-sql: true
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui
-  group-configs:
-    - group: labs
-      paths-to-match: "/labs/**"
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
