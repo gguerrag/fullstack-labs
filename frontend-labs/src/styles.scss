@@ -1,1 +1,202 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f7fb;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Colores BioLab */
+:root {
+  --biolab-primary: #0059ff;
+  --biolab-success: #1dbf73;
+  --biolab-info: #00b7ff;
+  --biolab-danger: #ff3b30;
+}
+
+/* Títulos generales */
+h1, h2, h3 {
+  font-weight: 700;
+  color: var(--biolab-primary);
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--biolab-primary) !important;
+  border-color: var(--biolab-primary) !important;
+}
+
+.btn-success {
+  background-color: var(--biolab-success) !important;
+  border-color: var(--biolab-success) !important;
+}
+
+.btn-info {
+  background-color: var(--biolab-info) !important;
+  border-color: var(--biolab-info) !important;
+}
+
+/* Inputs */
+input.form-control, select.form-select {
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+input.form-control:focus, select.form-select:focus {
+  border-color: var(--biolab-primary);
+  box-shadow: 0 0 0 0.15rem rgba(0, 89, 255, 0.25);
+}
+
+/* Cards o contenedores */
+.container, .card {
+  animation: fadeIn .4s ease-in-out;
+}
+
+.card {
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0px 5px 18px rgba(0,0,0,0.07);
+}
+
+/* Links */
+a {
+  color: var(--biolab-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+/* ============================================
+   BIO-LAB — ESTILOS PARA DASHBOARDS
+   ============================================ */
+
+.biolab-dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--biolab-primary);
+}
+
+.biolab-card-stats {
+  border-radius: 14px;
+  padding: 22px;
+  color: #fff;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.12);
+  transition: transform .2s ease;
+}
+
+.biolab-card-stats:hover {
+  transform: translateY(-4px);
+}
+
+/* Variantes */
+.biolab-card-primary {
+  background: var(--biolab-primary);
+}
+
+.biolab-card-success {
+  background: var(--biolab-success);
+}
+
+.biolab-card-info {
+  background: var(--biolab-info);
+}
+
+/* ============================================
+   BIO-LAB — LISTA DE LABORATORIOS
+   ============================================ */
+
+.lab-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0px 3px 12px rgba(0,0,0,0.07);
+}
+
+.lab-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.12);
+}
+
+.lab-card .card-body {
+  padding: 18px;
+}
+
+.lab-card .card-footer {
+  background: #f7f9fc;
+}
+
+/* ============================================
+   BIO-LAB — TABLAS DE RESULTADOS
+   ============================================ */
+
+.table thead {
+  background: var(--biolab-primary);
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 89, 255, 0.08);
+}
+
+/* Badges */
+.badge {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* ============================================
+   BIO-LAB — PANELES PACIENTE
+   ============================================ */
+
+.biolab-welcome-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+}
+
+.biolab-welcome-box h2 {
+  color: var(--biolab-primary);
+}
+
+
+
+/* ======== BREAKPOINTS 3 TAMAÑOS ======== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+  h2 {
+    font-size: 1.9rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  h2 {
+    font-size: 2.1rem;
+  }
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

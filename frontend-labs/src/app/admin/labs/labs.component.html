@@ -1,37 +1,33 @@
 <div class="container my-4">
-  <h2 class="mb-3">Gestión de laboratorios</h2>
+  <h2 class="biolab-dashboard-title">Gestión de laboratorios</h2>
 
   <div class="row">
-    <div 
-      class="col-12 col-md-6 col-lg-4 mb-3"
-      *ngFor="let lab of labs">
+    <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let lab of labs">
+      <div class="card lab-card h-100">
 
-      <div class="card h-100">
         <div class="card-body">
           <h5 class="card-title">{{ lab.nombre }}</h5>
-          <p class="card-text mb-1">
-            <strong>Dirección:</strong> {{ lab.direccion }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>Teléfono:</strong> {{ lab.telefono }}
-          </p>
-          <p class="card-text">
+
+          <p class="mb-1"><strong>Dirección:</strong> {{ lab.direccion }}</p>
+          <p class="mb-1"><strong>Teléfono:</strong> {{ lab.telefono }}</p>
+
+          <p class="mb-1">
             <strong>Estado:</strong>
-            <span class="badge" 
+            <span class="badge"
                   [ngClass]="lab.estado === 'Activo' ? 'bg-success' : 'bg-secondary'">
               {{ lab.estado }}
             </span>
           </p>
         </div>
+
         <div class="card-footer text-end">
-          <button 
+          <button
             class="btn btn-sm btn-outline-primary"
             (click)="toggleEstado(lab.id)">
             Cambiar estado
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </div>

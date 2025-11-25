@@ -1,11 +1,12 @@
 <div class="container my-4" *ngIf="user">
-  <h2 class="mb-3">Bienvenido, {{ user.nombre }}</h2>
-  <p class="mb-4">
-    Aquí puedes revisar el estado de tus exámenes realizados
-    en los distintos laboratorios.
-  </p>
+  <div class="biolab-welcome-box mb-4">
+    <h2 class="mb-2">Bienvenido, {{ user.nombre }}</h2>
+    <p class="mb-0">
+      Aquí puedes revisar el estado de tus exámenes realizados en los distintos laboratorios.
+    </p>
+  </div>
 
-  <h4>Resumen rápido</h4>
+  <h4 class="mb-3">Resumen rápido</h4>
   <ul>
     <li>Total de resultados: {{ totalResultados }}</li>
     <li>Completados: {{ totalCompletados }}</li>

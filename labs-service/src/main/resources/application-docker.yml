@@ -1,11 +1,14 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
+  application:
+    name: labs-service
+
   datasource:
-    url: jdbc:oracle:thin:@x4jr6t1j9re665hr_high?TNS_ADMIN=/Users/gonzaloguerragaldames/fullstack-labs/users-service/src/main/resources/Wallet_X4JR6T1J9RE665HR
-    username: LAB_USERS
-    password: P4rM3d-Users#2025!
+    url: jdbc:oracle:thin:@x4jr6t1j9re665hr_high?TNS_ADMIN=/app/wallet
+    username: LAB_LABS
+    password: P4rM3d-Labs#2025!
     driver-class-name: oracle.jdbc.OracleDriver
 
   jpa:
@@ -13,7 +16,8 @@ spring:
       ddl-auto: update
     show-sql: true
     properties:
-      hibernate.dialect: org.hibernate.dialect.OracleDialect
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
 
 springdoc:
   swagger-ui:

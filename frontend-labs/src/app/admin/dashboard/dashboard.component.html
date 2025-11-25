@@ -1,32 +1,27 @@
-<div class="container my-4">
-  <h2 class="mb-4">Panel de administración</h2>
+<div class="dashboard-container">
 
-  <div class="row g-3">
-    <div class="col-12 col-md-4">
-      <div class="card text-bg-primary">
-        <div class="card-body">
-          <h5 class="card-title">Usuarios registrados</h5>
-          <p class="display-6 mb-0">{{ totalUsuarios }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-4">
-      <div class="card text-bg-success">
-        <div class="card-body">
-          <h5 class="card-title">Laboratorios configurados</h5>
-          <p class="display-6 mb-0">{{ totalLabs }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-4">
-      <div class="card text-bg-info">
-        <div class="card-body">
-          <h5 class="card-title">Resultados registrados</h5>
-          <p class="display-6 mb-0">{{ totalResultados }}</p>
-        </div>
-      </div>
-    </div>
+  <!-- Usuarios -->
+  <div class="card card-usuarios"
+       routerLink="/admin/usuarios"
+       style="cursor: pointer;">
+    <h3>Usuarios registrados</h3>
+    <p>{{ totalUsuarios }}</p>
   </div>
+
+  <!-- Laboratorios -->
+  <div class="card card-labs"
+       routerLink="/admin/laboratorios"
+       style="cursor: pointer;">
+    <h3>Laboratorios configurados</h3>
+    <p>{{ totalLabs }}</p>
+  </div>
+
+  <!-- Resultados -->
+  <div class="card card-resultados"
+       routerLink="/admin/resultados"
+       style="cursor: pointer;">
+    <h3>Resultados registrados</h3>
+    <p>{{ totalResultados }}</p>
+  </div>
+
 </div>

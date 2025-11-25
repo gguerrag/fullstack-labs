@@ -1,41 +1,55 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// ADMIN
+import { AdminComponent } from './admin/admin.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { UsersComponent } from './admin/users/users.component';
+import { LabsComponent } from './admin/labs/labs.component';
+
+// AUTH
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { RecoverComponent } from './auth/recover/recover.component';
-import { ProfileComponent } from './auth/profile/profile.component';
 
-import { DashboardComponent as AdminDashboardComponent } from './admin/dashboard/dashboard.component';
-import { LabsComponent } from './admin/labs/labs.component';
-import { UsersComponent } from './admin/users/users.component';
-
-import { DashboardComponent as PatientDashboardComponent } from './patient/dashboard/dashboard.component';
+// PATIENT – si lo usas
+import { PatientComponent } from './patient/patient.component';
 import { ResultsComponent } from './patient/results/results.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
 
-  // Auth
-  { path: 'auth/login', component: LoginComponent },
-  { path: 'auth/register', component: RegisterComponent },
-  { path: 'auth/recover', component: RecoverComponent },
-  { path: 'auth/profile', component: ProfileComponent },
+  // AUTH
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'recover', component: RecoverComponent },
 
-  // Admin
-  { path: 'admin', component: AdminDashboardComponent },
-  { path: 'admin/labs', component: LabsComponent },
-  { path: 'admin/users', component: UsersComponent },
+  // ADMIN
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'usuarios', component: UsersComponent },
+      { path: 'laboratorios', component: LabsComponent },
+      { path: 'resultados', component: ResultsComponent }
+    ]
+  },
 
-  // Paciente
-  { path: 'patient', component: PatientDashboardComponent },
-  { path: 'patient/results', component: ResultsComponent },
+  // PATIENT (opcional)
+  {
+    path: 'paciente',
+    component: PatientComponent,
+    children: [
+      { path: 'resultados', component: ResultsComponent }
+    ]
+  },
 
-  { path: '**', redirectTo: 'auth/login' }
+  { path: '**', redirectTo: 'admin/dashboard' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

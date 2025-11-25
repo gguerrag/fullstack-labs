@@ -1,32 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/auth/login">
-      LabManager
+
+    <!-- BRAND -->
+    <a class="navbar-brand fw-bold" routerLink="/auth/login">
+      BioLab
     </a>
 
+    <!-- MOBILE MENU -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav"
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- MENU -->
     <div class="collapse navbar-collapse" id="navbarNav">
+
+      <!-- LEFT SIDE -->
       <ul class="navbar-nav me-auto">
 
-        <!-- No logueado -->
+        <!-- Visitante -->
         <ng-container *ngIf="!currentUser">
           <li class="nav-item">
-            <a class="nav-link"
-               routerLink="/auth/login"
-               routerLinkActive="active">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">
               Iniciar sesión
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"
-               routerLink="/auth/register"
-               routerLinkActive="active">
-               Registrarse
+            <a class="nav-link" routerLink="/register" routerLinkActive="active">
+              Registrarse
             </a>
           </li>
         </ng-container>
@@ -35,7 +37,7 @@
         <ng-container *ngIf="currentUser?.rol === 'ADMIN'">
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin" routerLinkActive="active">
-              Dashboard Admin
+              Dashboard
             </a>
           </li>
           <li class="nav-item">
@@ -54,7 +56,7 @@
         <ng-container *ngIf="currentUser?.rol === 'PATIENT'">
           <li class="nav-item">
             <a class="nav-link" routerLink="/patient" routerLinkActive="active">
-              Dashboard Paciente
+              Dashboard
             </a>
           </li>
           <li class="nav-item">
@@ -66,18 +68,23 @@
 
       </ul>
 
+      <!-- RIGHT SIDE -->
       <ul class="navbar-nav ms-auto">
+
         <li class="nav-item" *ngIf="currentUser">
           <span class="navbar-text me-3">
             {{ currentUser.nombre }} ({{ currentUser.rol }})
           </span>
         </li>
+
         <li class="nav-item" *ngIf="currentUser">
           <button class="btn btn-outline-light btn-sm" (click)="logout()">
             Cerrar sesión
           </button>
         </li>
+
       </ul>
+
     </div>
   </div>
 </nav>

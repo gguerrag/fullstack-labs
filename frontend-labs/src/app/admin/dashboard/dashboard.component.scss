@@ -1,0 +1,25 @@
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.card {
+  width: 280px;
+  padding: 30px;
+  border-radius: 18px;
+  color: #fff;
+  text-align: center;
+  font-size: 1.3rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transition: transform .2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-usuarios { background: #125BFF; }
+.card-labs     { background: #26A65B; }
+.card-resultados { background: #1BA8FF; }

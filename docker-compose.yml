@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  users-service:
+    build: ./users-service
+    container_name: users-service
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./users-service/src/main/resources/Wallet_X4JR6T1J9RE665HR:/app/wallet:ro
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: unless-stopped
+
+  labs-service:
+    build: ./labs-service
+    container_name: labs-service
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./labs-service/src/main/resources/Wallet_X4JR6T1J9RE665HR:/app/wallet:ro
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: unless-stopped
+
+  frontend-labs:
+    build: ./frontend-labs
+    container_name: frontend-labs
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
