@@ -1,14 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { PagesRoutingModule } from './pages-routing.module';
-
+import { ResultsListComponent } from './results/results-list/results-list.component';
+import { ResultsFormComponent } from './results/results-form/results-form.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ResultsListComponent,
+    ResultsFormComponent
+  ],
   imports: [
     CommonModule,
-    PagesRoutingModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    ResultsListComponent,
+    ResultsFormComponent
   ]
 })
 export class PagesModule { }

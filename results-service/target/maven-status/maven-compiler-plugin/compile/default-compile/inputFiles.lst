@@ -1,0 +1,12 @@
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/ResultsServiceApplication.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/config/CorsConfig.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/controller/ResultadoController.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/entity/Resultado.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/exceptions/GlobalExceptionHandler.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/exceptions/ResourceNotFoundException.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/model/DetalleOrden.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/model/Examen.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/model/Laboratorio.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/model/OrdenExamen.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/repository/ResultadoRepository.java
+/Users/gonzaloguerragaldames/fullstack-labs/results-service/src/main/java/com/example/results/service/ResultadoService.java

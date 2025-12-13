@@ -1,0 +1,74 @@
+<div class="container my-4">
+  <h2 class="h4 mb-3">Nuevo resultado de análisis</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">ID Usuario</label>
+        <input type="number" class="form-control" formControlName="usuarioId">
+        <div *ngIf="submitted && f.usuarioId.invalid" class="text-danger small">
+          El ID de usuario es obligatorio y debe ser mayor que 0.
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">ID Laboratorio</label>
+        <input type="number" class="form-control" formControlName="laboratorioId">
+        <div *ngIf="submitted && f.laboratorioId.invalid" class="text-danger small">
+          El ID de laboratorio es obligatorio y debe ser mayor que 0.
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Tipo de examen</label>
+        <input type="text" class="form-control" formControlName="tipoExamen">
+        <div *ngIf="submitted && f.tipoExamen.invalid" class="text-danger small">
+          El tipo de examen es obligatorio (máx. 100 caracteres).
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Valor resultado</label>
+        <input type="text" class="form-control" formControlName="valorResultado">
+        <div *ngIf="submitted && f.valorResultado.invalid" class="text-danger small">
+          El valor es obligatorio (máx. 100 caracteres).
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Unidad</label>
+        <input type="text" class="form-control" formControlName="unidad">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Estado</label>
+        <select class="form-select" formControlName="estado">
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="EN PROCESO">EN PROCESO</option>
+          <option value="LIBERADO">LIBERADO</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Fecha resultado</label>
+        <input type="datetime-local" class="form-control" formControlName="fechaResultado">
+        <div *ngIf="submitted && f.fechaResultado.invalid" class="text-danger small">
+          La fecha es obligatoria.
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-primary" [disabled]="saving">
+        {{ saving ? 'Guardando...' : 'Guardar resultado' }}
+      </button>
+      <a routerLink="/admin/resultados" class="btn btn-outline-secondary">
+        Volver
+      </a>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger mt-3">
+      {{ error }}
+    </div>
+  </form>
+</div>

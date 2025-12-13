@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -12,9 +13,12 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { RecoverComponent } from './auth/recover/recover.component';
 
-// PATIENT – si lo usas
+// PATIENT
 import { PatientComponent } from './patient/patient.component';
-import { ResultsComponent } from './patient/results/results.component';
+
+// RESULTS PAGES
+import { ResultsListComponent } from './pages/results/results-list/results-list.component';
+import { ResultsFormComponent } from './pages/results/results-form/results-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
@@ -32,16 +36,17 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'usuarios', component: UsersComponent },
       { path: 'laboratorios', component: LabsComponent },
-      { path: 'resultados', component: ResultsComponent }
+      { path: 'resultados', component: ResultsListComponent },
+      { path: 'resultados/nuevo', component: ResultsFormComponent }
     ]
   },
 
-  // PATIENT (opcional)
+  // PATIENT
   {
     path: 'paciente',
     component: PatientComponent,
     children: [
-      { path: 'resultados', component: ResultsComponent }
+      { path: 'resultados', component: ResultsListComponent }
     ]
   },
 

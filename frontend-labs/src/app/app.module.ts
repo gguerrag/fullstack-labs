@@ -4,10 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+// Módulos ya existentes
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { PatientModule } from './patient/patient.module';
+
+// Nuevo: módulo de páginas (donde está ResultsList)
+import { PagesModule } from './pages/pages.module';
 
 @NgModule({
   declarations: [
@@ -19,9 +23,10 @@ import { PatientModule } from './patient/patient.module';
     SharedModule,
     AuthModule,
     AdminModule,
-    PatientModule
+    PatientModule,
+    PagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
