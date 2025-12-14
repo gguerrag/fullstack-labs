@@ -6,7 +6,7 @@
       <div class="col-md-3">
         <label class="form-label">ID Usuario</label>
         <input type="number" class="form-control" formControlName="usuarioId">
-        <div *ngIf="submitted && f.usuarioId.invalid" class="text-danger small">
+        <div *ngIf="submitted && form.get('usuarioId')?.invalid" class="text-danger small">
           El ID de usuario es obligatorio y debe ser mayor que 0.
         </div>
       </div>
@@ -14,7 +14,7 @@
       <div class="col-md-3">
         <label class="form-label">ID Laboratorio</label>
         <input type="number" class="form-control" formControlName="laboratorioId">
-        <div *ngIf="submitted && f.laboratorioId.invalid" class="text-danger small">
+        <div *ngIf="submitted && form.get('laboratorioId')?.invalid" class="text-danger small">
           El ID de laboratorio es obligatorio y debe ser mayor que 0.
         </div>
       </div>
@@ -22,16 +22,16 @@
       <div class="col-md-6">
         <label class="form-label">Tipo de examen</label>
         <input type="text" class="form-control" formControlName="tipoExamen">
-        <div *ngIf="submitted && f.tipoExamen.invalid" class="text-danger small">
-          El tipo de examen es obligatorio (máx. 100 caracteres).
+        <div *ngIf="submitted && form.get('tipoExamen')?.invalid" class="text-danger small">
+           El tipo de examen es obligatorio (máx. 100 caracteres).
         </div>
       </div>
 
       <div class="col-md-4">
         <label class="form-label">Valor resultado</label>
         <input type="text" class="form-control" formControlName="valorResultado">
-        <div *ngIf="submitted && f.valorResultado.invalid" class="text-danger small">
-          El valor es obligatorio (máx. 100 caracteres).
+         <div *ngIf="submitted && form.get('valorResultado')?.invalid" class="text-danger small">
+           El valor es obligatorio (máx. 100 caracteres).
         </div>
       </div>
 
@@ -52,8 +52,8 @@
       <div class="col-md-6">
         <label class="form-label">Fecha resultado</label>
         <input type="datetime-local" class="form-control" formControlName="fechaResultado">
-        <div *ngIf="submitted && f.fechaResultado.invalid" class="text-danger small">
-          La fecha es obligatoria.
+        <div *ngIf="submitted && form.get('fechaResultado')?.invalid" class="text-danger small">
+           La fecha es obligatoria.
         </div>
       </div>
     </div>

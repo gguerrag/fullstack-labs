@@ -57,10 +57,8 @@ export class ResultsFormComponent {
         alert('Resultado registrado correctamente.');
         this.router.navigate(['/admin/resultados']);
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
-        this.error = 'No se pudo guardar el resultado. Intenta nuevamente.';
-        this.saving = false;
       }
     });
   }

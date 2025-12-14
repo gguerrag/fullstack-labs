@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ResultsService } from 'src/app/services/results.service';
-import { Resultado } from 'src/app/models/resultado';
+import { ResultsService, Resultado } from 'src/app/services/results.service';
 
 @Component({
   selector: 'app-results-list',
@@ -16,21 +15,21 @@ export class ResultsListComponent implements OnInit {
   constructor(private resultsService: ResultsService) {}
 
   ngOnInit(): void {
-    this.cargarResultados();
+    this.load();
   }
 
-  cargarResultados(): void {
+  load(): void {
     this.loading = true;
     this.error = null;
 
     this.resultsService.getAll().subscribe({
-      next: (data) => {
-        this.resultados = data;
+      next: (data: Resultado[]) => {
+        this.resultados = data ?? [];
         this.loading = false;
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
-        this.error = 'No se pudieron cargar los resultados. Intenta más tarde.';
+        this.error = 'No se pudieron cargar los resultados (API results-service).';
         this.loading = false;
       }
     });

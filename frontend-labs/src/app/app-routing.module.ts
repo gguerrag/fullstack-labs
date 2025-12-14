@@ -50,7 +50,8 @@ const routes: Routes = [
     ]
   },
 
-  { path: '**', redirectTo: 'admin/dashboard' }
+  { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' }
+
 ];
 
 @NgModule({

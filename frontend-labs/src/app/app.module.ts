@@ -13,6 +13,9 @@ import { PatientModule } from './patient/patient.module';
 // Nuevo: módulo de páginas (donde está ResultsList)
 import { PagesModule } from './pages/pages.module';
 
+import { HttpClientModule } from '@angular/common/http';
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -24,7 +27,10 @@ import { PagesModule } from './pages/pages.module';
     AuthModule,
     AdminModule,
     PatientModule,
-    PagesModule
+    PagesModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
