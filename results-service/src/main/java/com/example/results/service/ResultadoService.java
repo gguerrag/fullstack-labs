@@ -23,7 +23,11 @@ public class ResultadoService {
         return resultadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Resultado no encontrado"));
     }
-
+    
+    public List<Resultado> obtenerTodos() {
+    return resultadoRepository.findAll();
+    
+}
     public List<Resultado> obtenerPorUsuario(Long usuarioId) {
         return resultadoRepository.findByUsuarioId(usuarioId);
     }

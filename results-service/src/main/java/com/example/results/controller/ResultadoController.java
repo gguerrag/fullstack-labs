@@ -22,6 +22,11 @@ public class ResultadoController {
     public ResponseEntity<Resultado> crear(@RequestBody Resultado resultado) {
         return ResponseEntity.ok(resultadoService.crearResultado(resultado));
     }
+    @GetMapping
+    public ResponseEntity<List<Resultado>> obtenerTodos() {
+        return ResponseEntity.ok(resultadoService.obtenerTodos());
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Resultado> obtenerPorId(@PathVariable Long id) {
