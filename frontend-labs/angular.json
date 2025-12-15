@@ -94,15 +94,24 @@
               "src/assets"
             ],
             "styles": [
-                "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "src/styles.scss"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss"
             ],
             "scripts": [
-                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
+            "codeCoverageExclude": [
+              "src/app/patient/dashboard/**",
+              "src/app/**/routing.module.ts",
+              "src/app/**/*.module.ts",
+              "src/app/**/app-routing.module.ts",
+              "src/main.ts",
+              "src/polyfills.ts",
+              "src/environments/**"
             ]
           }
         }
+
       }
     }
   },
