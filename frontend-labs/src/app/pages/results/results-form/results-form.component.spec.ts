@@ -1,40 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { of, throwError } from 'rxjs';
 import { ResultsFormComponent } from './results-form.component';
-import { ResultsService } from '../../../services/results.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-describe('ResultsFormComponent', () => {
+import { ResultsService } from '../../../core/services/results.service';
+
+describe('ResultsFormComponent (coverage)', () => {
   let component: ResultsFormComponent;
   let fixture: ComponentFixture<ResultsFormComponent>;
-  let serviceSpy: jasmine.SpyObj<ResultsService>;
-  let routerSpy: jasmine.SpyObj<Router>;
 
-  const mockResultado = {
-    id: 1,
-    usuarioId: 1,
-    laboratorioId: 1,
-    tipoExamen: 'Glucosa',
-    valorResultado: '105',
-    unidad: 'mg/dL',
-    estado: 'LIBERADO',
-    fechaResultado: '2025-12-11T12:00:00'
-  };
+  let routerSpy: jasmine.SpyObj<Router>;
+  let resultsServiceSpy: jasmine.SpyObj<ResultsService>;
 
   beforeEach(async () => {
-    serviceSpy = jasmine.createSpyObj('ResultsService', ['create']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    resultsServiceSpy = jasmine.createSpyObj<ResultsService>('ResultsService', ['create', 'getAll', 'getResultsByUser']);
 
     await TestBed.configureTestingModule({
       declarations: [ResultsFormComponent],
       imports: [ReactiveFormsModule],
       providers: [
-        { provide: ResultsService, useValue: serviceSpy },
         { provide: Router, useValue: routerSpy },
+        { provide: ResultsService, useValue: resultsServiceSpy }
       ],
-      schemas: [NO_ERRORS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ResultsFormComponent);
@@ -44,46 +35,78 @@ describe('ResultsFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.form).toBeTruthy();
   });
 
-  it('should submit form successfully', () => {
-    component.form.setValue({
-      usuarioId: 1,
-      laboratorioId: 1,
-      tipoExamen: 'Test',
-      valorResultado: '10',
-      unidad: 'mg',
-      estado: 'PENDIENTE',
-      fechaResultado: '2025-12-14T10:00',
+  it('invalid submit should set errorMessage and not call create', () => {
+    component.form.patchValue({
+      usuarioId: null,
+      laboratorioId: null,
+      tipoExamen: '',
+      valorResultado: ''
     });
-
-    serviceSpy.create.and.returnValue(of(mockResultado as any));
 
     component.onSubmit();
 
-    expect(serviceSpy.create).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalled();
+    expect(component.submitted).toBeTrue();
+    expect(component.errorMessage).toContain('Formulario inválido');
+    expect(resultsServiceSpy.create).not.toHaveBeenCalled();
   });
 
-it('should handle error on submit (should not navigate)', () => {
-  component.form.setValue({
-    usuarioId: 1,
-    laboratorioId: 1,
-    tipoExamen: 'Test',
-    valorResultado: '10',
-    unidad: 'mg',
-    estado: 'PENDIENTE',
-    fechaResultado: '2025-12-14T10:00',
+  it('valid submit should call create and navigate', () => {
+    spyOn(window, 'alert');
+    resultsServiceSpy.create.and.returnValue(of({} as any));
+
+    component.form.patchValue({
+      usuarioId: 1,
+      laboratorioId: 2,
+      tipoExamen: 'Sangre',
+      valorResultado: 'OK',
+      estado: 'EN PROCESO'
+    });
+
+    component.onSubmit();
+
+    expect(resultsServiceSpy.create).toHaveBeenCalled();
+    expect(window.alert).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['admin', 'resultados']);
+    expect(component.successMessage).toContain('Resultado registrado');
   });
 
-  serviceSpy.create.and.returnValue(
-    throwError(() => ({ status: 500 }))
-  );
+  it('service error should set errorMessage', () => {
+    resultsServiceSpy.create.and.returnValue(throwError(() => new Error('fail')));
 
-  component.onSubmit();
+    component.form.patchValue({
+      usuarioId: 1,
+      laboratorioId: 2,
+      tipoExamen: 'Sangre',
+      valorResultado: 'OK'
+    });
 
-  expect(serviceSpy.create).toHaveBeenCalled();
-  expect(routerSpy.navigate).not.toHaveBeenCalled();
-});
+    component.onSubmit();
 
+    expect(resultsServiceSpy.create).toHaveBeenCalled();
+    expect(component.errorMessage).toContain('No se pudo');
+  });
+
+  it('resetForm should reset values and flags', () => {
+    component.submitted = true;
+    component.errorMessage = 'x';
+    component.successMessage = 'y';
+
+    component.form.patchValue({
+      usuarioId: 9,
+      laboratorioId: 9,
+      tipoExamen: 'AA',
+      valorResultado: 'BB',
+      estado: 'FINALIZADO'
+    });
+
+    component.resetForm();
+
+    expect(component.submitted).toBeFalse();
+    expect(component.errorMessage).toBeNull();
+    expect(component.successMessage).toBeNull();
+    expect(component.form.value.estado).toBe('EN PROCESO');
+  });
 });

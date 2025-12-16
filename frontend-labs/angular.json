@@ -20,15 +20,10 @@
             "outputPath": "dist/frontend-labs",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
@@ -38,16 +33,8 @@
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
+                { "type": "initial", "maximumWarning": "500kb", "maximumError": "1mb" },
+                { "type": "anyComponentStyle", "maximumWarning": "2kb", "maximumError": "4kb" }
               ],
               "outputHashing": "all"
             },
@@ -65,53 +52,39 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "frontend-labs:build:production"
-            },
-            "development": {
-              "browserTarget": "frontend-labs:build:development"
-            }
+            "production": { "browserTarget": "frontend-labs:build:production" },
+            "development": { "browserTarget": "frontend-labs:build:development" }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "frontend-labs:build"
-          }
+          "options": { "browserTarget": "frontend-labs:build" }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "karmaConfig": "karma.conf.js",
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "codeCoverage": true,
             "codeCoverageExclude": [
-              "src/app/patient/dashboard/**",
-              "src/app/**/routing.module.ts",
-              "src/app/**/*.module.ts",
-              "src/app/**/app-routing.module.ts",
+              "src/environments/**",
               "src/main.ts",
               "src/polyfills.ts",
-              "src/environments/**"
+              "**/*.module.ts",
+              "**/*routing*.ts",
+              "**/*.spec.ts"
             ]
           }
         }
-
       }
     }
   },

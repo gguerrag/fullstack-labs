@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ResultsService, Resultado } from '../../../services/results.service';
+import { ResultsService } from '../../../core/services/results.service';
+import { AnalysisResult } from '../../../core/models/result.model';
 
 @Component({
   selector: 'app-results-form',
@@ -13,7 +14,6 @@ export class ResultsFormComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  // 👇 claves para tests y UX
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
@@ -35,9 +35,24 @@ export class ResultsFormComponent implements OnInit {
     });
   }
 
-  // ayuda para template: f['usuarioId'] (evita TS4111)
   get f() {
     return this.form.controls;
+  }
+
+  resetForm(): void {
+    this.submitted = false;
+    this.errorMessage = null;
+    this.successMessage = null;
+
+    this.form.reset({
+      usuarioId: null,
+      laboratorioId: null,
+      tipoExamen: '',
+      valorResultado: '',
+      unidad: '',
+      estado: 'EN PROCESO',
+      fechaResultado: ''
+    });
   }
 
   onSubmit(): void {
@@ -50,16 +65,17 @@ export class ResultsFormComponent implements OnInit {
       return;
     }
 
-    const payload: Resultado = {
-      usuarioId: Number(this.form.value.usuarioId),
-      laboratorioId: Number(this.form.value.laboratorioId),
-      tipoExamen: String(this.form.value.tipoExamen).trim(),
-      valorResultado: String(this.form.value.valorResultado).trim(),
-      unidad: this.form.value.unidad ? String(this.form.value.unidad).trim() : undefined,
-      estado: this.form.value.estado ? String(this.form.value.estado).trim() : undefined,
-      fechaResultado: this.form.value.fechaResultado
+    // 👇 lo mapeo a AnalysisResult (tu modelo real)
+    const payload: Partial<AnalysisResult> = {
+      userId: Number(this.form.value.usuarioId),
+      labId: Number(this.form.value.laboratorioId),
+      tipo: String(this.form.value.tipoExamen).trim(),
+      resultado: String(this.form.value.valorResultado).trim(),
+      estado: (this.form.value.estado === 'Completado' ? 'Completado' : 'Pendiente'),
+
+      fecha: this.form.value.fechaResultado
         ? String(this.form.value.fechaResultado)
-        : undefined
+        : new Date().toISOString().slice(0, 10)
     };
 
     this.resultsService.create(payload).subscribe({
