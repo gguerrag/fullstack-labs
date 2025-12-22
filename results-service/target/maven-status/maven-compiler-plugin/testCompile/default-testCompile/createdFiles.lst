@@ -1,1 +1,3 @@
 com/example/AppTest.class
+com/example/results/service/ResultadoServiceTest.class
+com/example/results/controller/ResultadoControllerTest.class

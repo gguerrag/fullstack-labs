@@ -7,3 +7,5 @@ export interface AnalysisResult {
   resultado: string;
   estado: 'Pendiente' | 'Completado';
 }
+
+export type Estado = AnalysisResult['estado'];

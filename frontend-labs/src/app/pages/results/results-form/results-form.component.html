@@ -1,71 +1,58 @@
 <div class="container my-4">
-  <h2 class="h4 mb-3">Nuevo resultado de análisis</h2>
+  <h2 class="mb-3">Crear Resultado</h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <div class="row g-3">
-      <div class="col-md-3">
-        <label class="form-label">ID Usuario</label>
-        <input type="number" class="form-control" formControlName="usuarioId">
-        <div *ngIf="submitted && form.get('usuarioId')?.invalid" class="text-danger small">
-          El ID de usuario es obligatorio y debe ser mayor que 0.
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <label class="form-label">ID Laboratorio</label>
-        <input type="number" class="form-control" formControlName="laboratorioId">
-        <div *ngIf="submitted && form.get('laboratorioId')?.invalid" class="text-danger small">
-          El ID de laboratorio es obligatorio y debe ser mayor que 0.
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Tipo de examen</label>
-        <input type="text" class="form-control" formControlName="tipoExamen">
-        <div *ngIf="submitted && form.get('tipoExamen')?.invalid" class="text-danger small">
-           El tipo de examen es obligatorio (máx. 100 caracteres).
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label">Valor resultado</label>
-        <input type="text" class="form-control" formControlName="valorResultado">
-         <div *ngIf="submitted && form.get('valorResultado')?.invalid" class="text-danger small">
-           El valor es obligatorio (máx. 100 caracteres).
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label">Unidad</label>
-        <input type="text" class="form-control" formControlName="unidad">
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label">Estado</label>
-        <select class="form-select" formControlName="estado">
-          <option value="PENDIENTE">PENDIENTE</option>
-          <option value="EN PROCESO">EN PROCESO</option>
-          <option value="LIBERADO">LIBERADO</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Fecha resultado</label>
-        <input type="datetime-local" class="form-control" formControlName="fechaResultado">
-        <div *ngIf="submitted && form.get('fechaResultado')?.invalid" class="text-danger small">
-           La fecha es obligatoria.
-        </div>
+    <div class="mb-3">
+      <label class="form-label">Usuario ID</label>
+      <input class="form-control" formControlName="usuarioId" placeholder="Ej: 1" />
+      <div *ngIf="submitted && form.get('usuarioId')?.invalid" class="text-danger small">
+        Usuario ID es requerido
       </div>
     </div>
 
-    <div class="mt-4 d-flex gap-2">
-      <button type="submit" class="btn btn-primary" [disabled]="saving">
-        {{ saving ? 'Guardando...' : 'Guardar resultado' }}
-      </button>
-      <a routerLink="/admin/resultados" class="btn btn-outline-secondary">
-        Volver
-      </a>
+    <div class="mb-3">
+      <label class="form-label">Laboratorio ID</label>
+      <input class="form-control" formControlName="laboratorioId" placeholder="Ej: 1" />
+      <div *ngIf="submitted && form.get('laboratorioId')?.invalid" class="text-danger small">
+        Laboratorio ID es requerido
+      </div>
     </div>
+
+    <div class="mb-3">
+      <label class="form-label">Tipo de Examen</label>
+      <input class="form-control" formControlName="tipoExamen" placeholder="Ej: Hemograma" />
+      <div *ngIf="submitted && form.get('tipoExamen')?.invalid" class="text-danger small">
+        Tipo de examen es requerido
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Resultado</label>
+      <input class="form-control" formControlName="valorResultado" placeholder="Ej: Normal" />
+      <div *ngIf="submitted && form.get('valorResultado')?.invalid" class="text-danger small">
+        Resultado es requerido
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Fecha</label>
+      <input class="form-control" type="date" formControlName="fechaResultado" />
+      <div *ngIf="submitted && form.get('fechaResultado')?.invalid" class="text-danger small">
+        Fecha es requerida
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Estado</label>
+      <select class="form-select" formControlName="estado">
+        <option value="Pendiente">Pendiente</option>
+        <option value="Completado">Completado</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="saving">
+      {{ saving ? 'Guardando...' : 'Guardar resultado' }}
+    </button>
 
     <div *ngIf="error" class="alert alert-danger mt-3">
       {{ error }}

@@ -1,41 +1,75 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardComponent } from './dashboard.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-describe('PatientDashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+type StoredUser = {
+  nombre?: string;
+  name?: string;
+  email?: string;
+  run?: string;
+};
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DashboardComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+@Component({
+  selector: 'app-patient-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
+})
+export class DashboardComponent implements OnInit {
+  user: { nombre: string } | null = null;
 
-    fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  totalResultados = 0;
+  totalCompletados = 0;
+  totalPendientes = 0;
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  ngOnInit(): void {
+    this.loadUserFromStorage();
+    this.loadCountersFromStorage();
+  }
 
-  it('should execute public methods (coverage)', () => {
-    const anyComponent: any = component;
+  private loadUserFromStorage(): void {
+    // Ajusta la key si tu app guarda otro nombre (ej: 'currentUser', 'auth_user', etc.)
+    const raw = localStorage.getItem('user') || localStorage.getItem('currentUser');
 
-    Object.getOwnPropertyNames(Object.getPrototypeOf(anyComponent)).forEach(
-      (key) => {
-        if (typeof anyComponent[key] === 'function') {
-          try {
-            anyComponent[key]();
-          } catch {
-            // ignorado
-          }
-        }
-      }
-    );
+    if (!raw) {
+      this.user = null;
+      return;
+    }
 
-    expect(component).toBeTruthy();
-  });
-});
+    try {
+      const parsed = JSON.parse(raw) as StoredUser;
+
+      // Rescatamos nombre desde distintas llaves típicas
+      const nombre = (parsed.nombre || parsed.name || parsed.email || 'Paciente').toString();
+
+      this.user = { nombre };
+    } catch {
+      this.user = { nombre: 'Paciente' };
+    }
+  }
+
+  private loadCountersFromStorage(): void {
+    // Si después quieres traer estos datos desde tu API, aquí reemplazas por service calls.
+    const raw = localStorage.getItem('patient_dashboard_counts');
+
+    if (!raw) {
+      this.totalResultados = 0;
+      this.totalCompletados = 0;
+      this.totalPendientes = 0;
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as Partial<{
+        totalResultados: number;
+        totalCompletados: number;
+        totalPendientes: number;
+      }>;
+
+      this.totalResultados = Number(parsed.totalResultados ?? 0);
+      this.totalCompletados = Number(parsed.totalCompletados ?? 0);
+      this.totalPendientes = Number(parsed.totalPendientes ?? 0);
+    } catch {
+      this.totalResultados = 0;
+      this.totalCompletados = 0;
+      this.totalPendientes = 0;
+    }
+  }
+}

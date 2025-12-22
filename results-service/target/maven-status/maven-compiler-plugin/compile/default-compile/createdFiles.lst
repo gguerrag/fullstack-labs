@@ -2,12 +2,12 @@ com/example/results/config/CorsConfig$1.class
 com/example/results/controller/ResultadoController.class
 com/example/labs/model/OrdenExamen.class
 com/example/results/repository/ResultadoRepository.class
-com/example/labs/exceptions/GlobalExceptionHandler.class
+com/example/results/exceptions/ResourceNotFoundException.class
 com/example/results/config/CorsConfig.class
 com/example/labs/model/Examen.class
-com/example/labs/exceptions/ResourceNotFoundException.class
 com/example/labs/model/Laboratorio.class
 com/example/results/ResultsServiceApplication.class
 com/example/labs/model/DetalleOrden.class
+com/example/results/exceptions/GlobalExceptionHandler.class
 com/example/results/entity/Resultado.class
 com/example/results/service/ResultadoService.class

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Resultado.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">results-service</a> &gt; <a href="index.source.html" class="el_package">com.example.results.entity</a> &gt; <span class="el_source">Resultado.java</span></div><h1>Resultado.java</h1><pre class="source lang-java linenums">package com.example.results.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = &quot;RESULTADO&quot;)
+<span class="fc" id="L8">public class Resultado {</span>
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;USUARIO_ID&quot;, nullable = false)
+    private Long usuarioId;
+
+    @Column(name = &quot;LABORATORIO_ID&quot;, nullable = false)
+    private Long laboratorioId;
+
+    @Column(name = &quot;TIPO_EXAMEN&quot;, nullable = false, length = 100)
+    private String tipoExamen;
+
+    @Column(name = &quot;VALOR_RESULTADO&quot;, nullable = false, length = 100)
+    private String valorResultado;
+
+    @Column(name = &quot;UNIDAD&quot;, length = 50)
+    private String unidad;
+
+    @Column(name = &quot;ESTADO&quot;, length = 30)
+    private String estado; // PENDIENTE, LIBERADO, ANULADO, etc.
+
+    @Column(name = &quot;FECHA_RESULTADO&quot;)
+    private LocalDateTime fechaResultado;
+
+    // Getters y setters
+
+    public Long getId() {
+<span class="fc" id="L38">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
+
+    public Long getUsuarioId() {
+<span class="fc" id="L46">        return usuarioId;</span>
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+<span class="fc" id="L50">        this.usuarioId = usuarioId;</span>
+<span class="fc" id="L51">    }</span>
+
+    public Long getLaboratorioId() {
+<span class="fc" id="L54">        return laboratorioId;</span>
+    }
+
+    public void setLaboratorioId(Long laboratorioId) {
+<span class="fc" id="L58">        this.laboratorioId = laboratorioId;</span>
+<span class="fc" id="L59">    }</span>
+
+    public String getTipoExamen() {
+<span class="fc" id="L62">        return tipoExamen;</span>
+    }
+
+    public void setTipoExamen(String tipoExamen) {
+<span class="fc" id="L66">        this.tipoExamen = tipoExamen;</span>
+<span class="fc" id="L67">    }</span>
+
+    public String getValorResultado() {
+<span class="fc" id="L70">        return valorResultado;</span>
+    }
+
+    public void setValorResultado(String valorResultado) {
+<span class="fc" id="L74">        this.valorResultado = valorResultado;</span>
+<span class="fc" id="L75">    }</span>
+
+    public String getUnidad() {
+<span class="fc" id="L78">        return unidad;</span>
+    }
+
+    public void setUnidad(String unidad) {
+<span class="fc" id="L82">        this.unidad = unidad;</span>
+<span class="fc" id="L83">    }</span>
+
+    public String getEstado() {
+<span class="fc" id="L86">        return estado;</span>
+    }
+
+    public void setEstado(String estado) {
+<span class="fc" id="L90">        this.estado = estado;</span>
+<span class="fc" id="L91">    }</span>
+
+    public LocalDateTime getFechaResultado() {
+<span class="fc" id="L94">        return fechaResultado;</span>
+    }
+
+    public void setFechaResultado(LocalDateTime fechaResultado) {
+<span class="fc" id="L98">        this.fechaResultado = fechaResultado;</span>
+<span class="fc" id="L99">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

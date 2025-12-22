@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResultadoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">results-service</a> &gt; <a href="index.source.html" class="el_package">com.example.results.controller</a> &gt; <span class="el_source">ResultadoController.java</span></div><h1>ResultadoController.java</h1><pre class="source lang-java linenums">package com.example.results.controller;
+
+import com.example.results.entity.Resultado;
+import com.example.results.service.ResultadoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/results&quot;)
+public class ResultadoController {
+
+<span class="fc" id="L16">    private static final Logger log = LoggerFactory.getLogger(ResultadoController.class);</span>
+
+    private final ResultadoService resultadoService;
+
+<span class="fc" id="L20">    public ResultadoController(ResultadoService resultadoService) {</span>
+<span class="fc" id="L21">        this.resultadoService = resultadoService;</span>
+<span class="fc" id="L22">    }</span>
+
+    @PostMapping
+    public ResponseEntity&lt;Resultado&gt; crear(@RequestBody Resultado resultado) {
+<span class="fc" id="L26">        log.info(&quot;POST /api/results usuarioId={} labId={} tipo={}&quot;,</span>
+<span class="fc" id="L27">                resultado.getUsuarioId(), resultado.getLaboratorioId(), resultado.getTipoExamen());</span>
+
+<span class="fc" id="L29">        Resultado created = resultadoService.crearResultado(resultado);</span>
+
+        // 201 Created
+<span class="fc" id="L32">        return ResponseEntity.status(201).body(created);</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Resultado&gt;&gt; obtenerTodos() {
+<span class="fc" id="L37">        log.info(&quot;GET /api/results&quot;);</span>
+<span class="fc" id="L38">        return ResponseEntity.ok(resultadoService.obtenerTodos());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Resultado&gt; obtenerPorId(@PathVariable Long id) {
+<span class="fc" id="L43">        log.info(&quot;GET /api/results/{}&quot;, id);</span>
+<span class="fc" id="L44">        return ResponseEntity.ok(resultadoService.obtenerPorId(id));</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Resultado&gt; actualizar(@PathVariable Long id, @RequestBody Resultado resultado) {
+<span class="nc" id="L49">        log.info(&quot;PUT /api/results/{}&quot;, id);</span>
+<span class="nc" id="L50">        return ResponseEntity.ok(resultadoService.actualizar(id, resultado));</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; eliminar(@PathVariable Long id) {
+<span class="nc" id="L55">        log.info(&quot;DELETE /api/results/{}&quot;, id);</span>
+<span class="nc" id="L56">        resultadoService.eliminar(id);</span>
+<span class="nc" id="L57">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

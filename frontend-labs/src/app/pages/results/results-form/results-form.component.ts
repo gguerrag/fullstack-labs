@@ -1,21 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AnalysisResult, Estado } from '../../../core/models/result.model';
 import { ResultsService } from '../../../core/services/results.service';
-import { AnalysisResult } from '../../../core/models/result.model';
 
 @Component({
   selector: 'app-results-form',
   templateUrl: './results-form.component.html',
-  styleUrls: ['./results-form.component.scss']
 })
-export class ResultsFormComponent implements OnInit {
-  form!: FormGroup;
+export class ResultsFormComponent {
   submitted = false;
+  saving = false;
+  error: string | null = null;
 
-  errorMessage: string | null = null;
-  successMessage: string | null = null;
+  form = this.fb.group({
+    // estos nombres pueden quedar como los tienes en el HTML:
+    usuarioId: ['', [Validators.required]],
+    laboratorioId: ['', [Validators.required]],
+    tipoExamen: ['', [Validators.required, Validators.minLength(2)]],
+    valorResultado: ['', [Validators.required, Validators.minLength(1)]],
+    fechaResultado: ['', [Validators.required]],
+    estado: ['Pendiente' as Estado, [Validators.required]],
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -23,71 +29,41 @@ export class ResultsFormComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      usuarioId: [null, [Validators.required, Validators.min(1)]],
-      laboratorioId: [null, [Validators.required, Validators.min(1)]],
-      tipoExamen: ['', [Validators.required, Validators.minLength(2)]],
-      valorResultado: ['', [Validators.required, Validators.minLength(1)]],
-      unidad: [''],
-      estado: ['EN PROCESO'],
-      fechaResultado: ['']
-    });
-  }
-
-  get f() {
-    return this.form.controls;
-  }
-
-  resetForm(): void {
-    this.submitted = false;
-    this.errorMessage = null;
-    this.successMessage = null;
-
-    this.form.reset({
-      usuarioId: null,
-      laboratorioId: null,
-      tipoExamen: '',
-      valorResultado: '',
-      unidad: '',
-      estado: 'EN PROCESO',
-      fechaResultado: ''
-    });
-  }
-
   onSubmit(): void {
     this.submitted = true;
-    this.errorMessage = null;
-    this.successMessage = null;
+    this.error = null;
 
-    if (this.form.invalid) {
-      this.errorMessage = 'Formulario inválido. Revisa los campos obligatorios.';
-      return;
-    }
+    if (this.form.invalid) return;
 
-    // 👇 lo mapeo a AnalysisResult (tu modelo real)
+    this.saving = true;
+
+    const estadoForm = (this.form.get('estado')!.value ?? 'Pendiente') as Estado;
+
+    // ✅ Mapeo a lo que realmente existe en AnalysisResult
     const payload: Partial<AnalysisResult> = {
-      userId: Number(this.form.value.usuarioId),
-      labId: Number(this.form.value.laboratorioId),
-      tipo: String(this.form.value.tipoExamen).trim(),
-      resultado: String(this.form.value.valorResultado).trim(),
-      estado: (this.form.value.estado === 'Completado' ? 'Completado' : 'Pendiente'),
-
-      fecha: this.form.value.fechaResultado
-        ? String(this.form.value.fechaResultado)
-        : new Date().toISOString().slice(0, 10)
+      userId: Number(this.form.get('usuarioId')!.value),
+      labId: Number(this.form.get('laboratorioId')!.value),
+      tipo: String(this.form.get('tipoExamen')!.value ?? ''),
+      resultado: String(this.form.get('valorResultado')!.value ?? ''),
+      fecha: String(this.form.get('fechaResultado')!.value ?? ''),
+      estado: estadoForm,
     };
 
     this.resultsService.create(payload).subscribe({
       next: () => {
-        this.successMessage = 'Resultado registrado correctamente.';
-        alert(this.successMessage);
-        this.router.navigate(['admin', 'resultados']);
+        this.saving = false;
+        // ajusta la ruta si tu app usa otra
+        this.router.navigate(['/results']);
       },
-      error: (err: any) => {
-        console.error(err);
-        this.errorMessage = 'No se pudo registrar el resultado.';
-      }
+      error: (err) => {
+        this.saving = false;
+        this.error = err?.error?.message ?? 'Error guardando el resultado';
+      },
     });
+  }
+
+  // opcional: para usar en HTML si quieres mostrar errores por control
+  get f() {
+    return this.form.controls;
   }
 }

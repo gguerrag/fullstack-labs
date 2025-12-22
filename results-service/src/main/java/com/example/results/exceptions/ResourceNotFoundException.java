@@ -1,8 +1,7 @@
-package com.example.labs.exceptions;
+package com.example.results.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String mensaje) {
-        super(mensaje);
+    public ResourceNotFoundException(String message) {
+        super(message);
     }
 }

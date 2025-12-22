@@ -1,45 +1,58 @@
-package com.example.labs.exceptions;
+package com.example.results.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@RestControllerAdvice(basePackages = "com.example.labs")
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleNotFound(ResourceNotFoundException ex) {
+    public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         Map<String, Object> body = new HashMap<>();
-        body.put("mensaje", ex.getMessage());
+        body.put("timestamp", Instant.now().toString());
+        body.put("status", 404);
+        body.put("error", "Not Found");
+        body.put("message", ex.getMessage());
+        body.put("path", req.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
+        Map<String, Object> errors = ex.getBindingResult().getFieldErrors().stream()
+                .collect(Collectors.toMap(
+                        e -> e.getField(),
+                        e -> e.getDefaultMessage(),
+                        (a, b) -> a
+                ));
+
         Map<String, Object> body = new HashMap<>();
-        Map<String, String> errores = new HashMap<>();
-
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errores.put(error.getField(), error.getDefaultMessage());
-        }
-
-        body.put("mensaje", "Error de validación");
-        body.put("errores", errores);
-
+        body.put("timestamp", Instant.now().toString());
+        body.put("status", 400);
+        body.put("error", "Bad Request");
+        body.put("message", "Validation error");
+        body.put("errors", errors);
+        body.put("path", req.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGeneral(Exception ex) {
+    public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex, HttpServletRequest req) {
         Map<String, Object> body = new HashMap<>();
-        body.put("mensaje", "Ocurrió un error inesperado");
-        body.put("detalle", ex.getMessage());
+        body.put("timestamp", Instant.now().toString());
+        body.put("status", 500);
+        body.put("error", "Internal Server Error");
+        body.put("message", ex.getMessage());
+        body.put("path", req.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 }
